@@ -29,7 +29,7 @@ There is a layer with pointers:
 
 ![](pictures/pointers.png)
 
-Also there is another one with circles that show how fat the locations
+Also there is another one with circles that show how far the locations
 are:
 
 ![](pictures/circles.png)
