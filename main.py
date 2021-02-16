@@ -1,3 +1,8 @@
+"""
+this module works with csv file with films, years and location
+in it and returns html file with web map
+"""
+
 import folium
 from geopy.geocoders import Nominatim
 import csv
@@ -5,6 +10,10 @@ import pandas as pd
 import math
 
 def year_list(year):
+    '''
+    returns dataframe with films of
+    a given year
+    '''
     df = pd.read_csv('location.csv')
     df.columns = ['location', 'name', 'year']
     df = df[df['year'] == str(year)]
@@ -13,6 +22,10 @@ def year_list(year):
     return df
 
 def add_location(year):
+    '''
+    finds locations of each film
+    and adds data to dataframe
+    '''
     df = year_list(year)
     lst = list(df['location'])
     lat_lst = []
@@ -47,6 +60,10 @@ def add_location(year):
     return df
 
 def find_nearest(coord, year):
+    '''
+    founds distance and then returns dataframe
+    with 10 nearest locations
+    '''
     df = add_location(year)
     df_coord = list(df['coordinates'])
     dist  =[]
@@ -67,11 +84,16 @@ def find_nearest(coord, year):
     return df
 
 def new_csv(coord):
+    '''
+    converts dataframe into csv
+    '''
     df = find_nearest(coord, year)
     df.to_csv("final.csv")
 
 def color_creator(distance):
-
+    '''
+    creates color on the locations depending on distance
+    '''
     if float(distance) < 1000: 
         return "red"
 
@@ -83,6 +105,10 @@ def color_creator(distance):
     return "blue"
 
 def create_map():
+    '''
+    creates html file based
+    on csv one
+    '''
     data = pd.read_csv("final.csv", error_bad_lines = False)
     
     coordinates = data['coordinates']
